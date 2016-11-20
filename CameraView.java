@@ -2,6 +2,7 @@ package com.imagespeech.zaher.imagespeech2;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Instrumentation;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -80,6 +82,7 @@ public class CameraView extends Activity implements SurfaceHolder.Callback, OnCl
 
     }
 
+
     // standard method override
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -98,14 +101,14 @@ public class CameraView extends Activity implements SurfaceHolder.Callback, OnCl
                 try {
                     BitmapFactory.Options opts = new BitmapFactory.Options();      // get the bitmap appray representation of pic
                     Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length, opts);
-                    bitmap = Bitmap.createScaledBitmap(bitmap, 1920, 1080, false);
+                    bitmap = Bitmap.createScaledBitmap(bitmap, 1080, 810, false);
                     int width = bitmap.getWidth();
                     int height = bitmap.getHeight();
-                    int newWidth = 1920;
-                    int newHeight = 1080;
+//                    int newWidth = 1920;
+//                    int newHeight = 1080;
                     // calculate the scale - in this case = 0.4f
-                    float scaleWidth = ((float) newWidth) / width;
-                    float scaleHeight = ((float) newHeight) / height;
+//                    float scaleWidth = ((float) newWidth) / width;
+//                    float scaleHeight = ((float) newHeight) / height;
 
                     // createa matrix for the manipulation
                     Matrix matrix = new Matrix();
@@ -129,7 +132,8 @@ public class CameraView extends Activity implements SurfaceHolder.Callback, OnCl
                     e.printStackTrace();
                 }
                 setResult(585);
-
+                Intent intent = new Intent(CameraView.this, MainActivity.class);
+                setResult(Activity.RESULT_OK, intent);
                 finish();
             }
         }
@@ -179,6 +183,8 @@ public class CameraView extends Activity implements SurfaceHolder.Callback, OnCl
     }
 
     private void printResult(List<String> list) {
+
+        MainActivity.stringsTokens = list;
         for (String item : list) {
             Log.d("result", item);
         }
